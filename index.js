@@ -1,11 +1,13 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const pool = require('./database');
 
 const app = express();
 const port = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
 
 app.use('/api/users', require('./routes/users'));
 app.use('/api/collections', require('./routes/collections'));
