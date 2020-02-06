@@ -3,7 +3,7 @@ const { TokenPrefix } = require('../keys');
 const authRequired = (req, res, next) => {
     const bearerHeader = req.headers['authorization'];
 
-    if(typeof bearerHeader !== undefined){
+    if(bearerHeader !== undefined){
         const bearer = bearerHeader.split(" ");
         
         if(bearer[0] !== TokenPrefix){
@@ -19,4 +19,4 @@ const authRequired = (req, res, next) => {
     }
 }
 
-module.exports = { authRequired };
+module.exports = authRequired;
