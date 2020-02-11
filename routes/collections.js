@@ -9,7 +9,7 @@ router.get('/:userId', authRequired, async (req, res) => {
     const { userId } = req.params;
 
     try {
-        const response = await pool.query(`SELECT collectionId, collection_name, icon FROM collections WHERE owner = '${userId}'`)
+        const response = await pool.query(`SELECT collectionId, collection_name, icon FROM collections WHERE owner = '${userId}'`);
         await pool.end;
         
         res.status(200).send({
