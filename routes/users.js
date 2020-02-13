@@ -31,11 +31,11 @@ router.post('/verifyToken', authRequired, (req, res) => {
 
 router.post('/login', async (req, res) => {
     const { userEmail, userPassword } = req.body;
+    console.log(userEmail, userPassword);
     
     try {
         const response = await pool.query(`SELECT userId, email, username, password FROM users WHERE email = '${userEmail}'`);
         await pool.end;
-
         if(!response.rows.length) res.status(400).send({error: 'email not found'});
 
         const { userId, email, username, password } = response.rows[0];
