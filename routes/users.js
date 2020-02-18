@@ -37,7 +37,10 @@ router.post('/login', async (req, res) => {
         await pool.end;
 
         if(!response.rows.length){
-            res.send({error: 'email not found'});
+            res.send({
+                success: false,
+                error: 'User not found'
+            });
             return;
         }
 
