@@ -31,12 +31,15 @@ router.post('/verifyToken', authRequired, (req, res) => {
 
 router.post('/login', async (req, res) => {
     const { userEmail, userPassword } = req.body;
-    console.log(userEmail, userPassword);
-    
+
     try {
-        const response = await pool.query(`SELECT userId, email, username, password FROM users WHERE email = '${userEmail}'`);
+        const response = await pool.query('SELECT userId, email, username, password FROM users WHERE email = $1', [userEmail]);
         await pool.end;
-        if(!response.rows.length) res.status(400).send({error: 'email not found'});
+
+        if(!response.rows.length){
+            res.send({error: 'email not found'});
+            return;
+        }
 
         const { userId, email, username, password } = response.rows[0];
 
@@ -79,7 +82,7 @@ router.post('/register', (req, res) => {
 
     bcrypt.genSalt(10, (err, salt) => {
         bcrypt.hash(password, salt, (err, hash) => {
-            pool.query(`INSERT INTO users VALUES('${uuid()}', '${username}', '${email}', '${hash}')`)
+            pool.query('INSERT INTO users VALUES($1, $2, $3, $4)', [uuid(), username, email, hash])
             .then(response =>{
                     res.status(200).send({
                         message: 'User created',
