@@ -19,7 +19,7 @@ router.get('/', async (req, res) => {
     }
 });
 
-router.post('/verifyToken', authRequired, (req, res) => {
+router.get('/verifyToken', authRequired, (req, res) => {
     jwt.verify(req.headers['token'], SecretKey, (err, data) => {
         if(err){
             res.send(err);

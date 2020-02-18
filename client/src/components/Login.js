@@ -11,8 +11,8 @@ import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import MuiAlert from '@material-ui/lab/Alert';
 import Alert from '@material-ui/lab/Alert';
+import auth from '../auth';
 
 function Copyright() {
   return (
@@ -55,27 +55,15 @@ export default function SignIn() {
 
     const submitData = async e => {
         e.preventDefault();
-
-        const response = await fetch('/api/users/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                userEmail: email,
-                userPassword: password
-            })
-        });
-        const data = await response.json();
-
-        if(!data.success){
-          console.log('error while login');
-          setFormError({error: true, message: data.error});
-        } else {
-          console.log('log in!');
-          setFormError({error: false, message: ''});
+        const body = {
+          userEmail: email,
+          userPassword: password
         }
-        console.log(data);
+
+        const loginResult = await auth.login(body);
+        setFormError(loginResult);
+
+        auth.isAuthenticated();
     }
 
     return (
