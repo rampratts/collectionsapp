@@ -62,8 +62,6 @@ export default function SignIn() {
 
         const loginResult = await auth.login(body);
         setFormError(loginResult);
-
-        auth.isAuthenticated();
     }
 
     return (

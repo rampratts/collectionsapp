@@ -32,7 +32,7 @@ class Auth {
         console.log('logout');
     }
 
-    async isAuthenticated(){
+    async getUserData(){
         const token = localStorage.getItem('jwttoken');
         const response = await fetch('/api/users/verifyToken', {
             method: 'GET',
@@ -44,6 +44,11 @@ class Auth {
         });
         const data = await response.json();
         return data;
+    }
+
+    async isAuthenticated(){
+        const userData = await this.getUserData();
+        this.authenticated = userData.email ? true : false;
     }
 }
 
